@@ -31,8 +31,8 @@ function game.initializeGame()
             },
             y = {
                 paper = 200,
-                rock = 200,
-                scissors = 200
+                rock = 250,
+                scissors = 250
             },
             selected = nil,
             targetX = -200
@@ -45,8 +45,8 @@ function game.initializeGame()
             },
             y = {
                 paper = 200,
-                rock = 200,
-                scissors = 200
+                rock = 250,
+                scissors = 250
             },
             selected = nil,
             targetX = 800
@@ -80,7 +80,7 @@ function game.selectChoice(choice)
     
     local choices = {"rock", "paper", "scissors"}
     gameState.computer.selected = choices[love.math.random(1, 3)]
-    gameState.computer.targetX = (ww/2) - 350
+    gameState.computer.targetX = (ww/2) + 100
 end
 
 function game.updateAnimation(dt)
@@ -175,9 +175,9 @@ function game.draw()
     
     -- Draw instructions
     love.graphics.setColor(102/255, 178/255, 1)
-    love.graphics.print("Press: X for Paper, C for Rock, V for Scissors", 10, 10)
+    love.graphics.print("Press: X for Paper, C for Rock, V for Scissors", 10, wh - 30)
     love.graphics.print("Press Space to reset", 10, 30)
-    love.graphics.print("Press Escape to return to menu", 10, 50)
+    love.graphics.print("Press Escape to return to menu", 10, 10)
 end
 
 function game.determineWinner(player, computer)
