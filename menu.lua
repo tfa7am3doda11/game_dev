@@ -83,9 +83,8 @@ function menu.mousepressed(x, y, button)
             if x >= pos.x and x <= pos.x + pos.width and
                y >= pos.y and y <= pos.y + pos.height then
                 if name == "play" then
-                    sound.music:stop()
                     sound.select:play()
-                    gameState = "game"
+                    gameState = "modeselect"  -- Changed from gamemode
                 elseif name == "settings" then
                     sound.music:pause()
                     sound.select:play()

@@ -2,6 +2,7 @@
 local menu = require("menu")
 local game = require("game")
 local settings = require("settings")
+local modeselect = require("modeselect")  -- Changed from gamemode
 
 function love.load()
     -- Initialize window dimensions
@@ -14,6 +15,9 @@ function love.load()
     -- Initialize scores
     playerScore = 0
     computerScore = 0
+    
+    -- Current game module (for switching between single and multiplayer)
+    currentGame = game
     
     -- Load font
     font = love.graphics.newFont("font/Press_Start_2P/PressStart2P-Regular.ttf", 15)
@@ -30,8 +34,10 @@ function love.load()
         rock = love.audio.newSource("sounds/rock.mp3", "static"),
         scissors = love.audio.newSource("sounds/scissor.mp3", "static")
     }
+    
     -- Initialize all modules
     menu.load()
+    modeselect.load()  -- Changed from gamemode
     game.load()
     settings.load()
 end
@@ -42,8 +48,10 @@ function love.update(dt)
     
     if gameState == "menu" then
         menu.update(dt)
+    elseif gameState == "modeselect" then  -- Changed from gamemode
+        modeselect.update(dt)
     elseif gameState == "game" then
-        game.update(dt)
+        currentGame.update(dt)
     elseif gameState == "settings" then
         settings.update(dt)
     end
@@ -52,8 +60,10 @@ end
 function love.draw()
     if gameState == "menu" then
         menu.draw()
+    elseif gameState == "modeselect" then  -- Changed from gamemode
+        modeselect.draw()
     elseif gameState == "game" then
-        game.draw()
+        currentGame.draw()
     elseif gameState == "settings" then
         settings.draw()
     end
@@ -62,16 +72,20 @@ end
 function love.mousepressed(x, y, button)
     if gameState == "menu" then
         menu.mousepressed(x, y, button)
+    elseif gameState == "modeselect" then  -- Changed from gamemode
+        modeselect.mousepressed(x, y, button)
     end
 end
 
 function love.keypressed(key)
     if key == "escape" then
-        if gameState == "game" or gameState == "settings" then
+        if gameState == "modeselect" then  -- Changed from gamemode
+            gameState = "menu"
+        elseif gameState == "game" or gameState == "settings" then
             gameState = "menu"
             sound.music:play()
         end
     elseif gameState == "game" then
-        game.keypressed(key)
+        currentGame.keypressed(key)
     end
 end
